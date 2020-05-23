@@ -8,6 +8,7 @@ public class FileUploadPlatformApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FileUploadPlatformApplication.class, args);
+		//System.out.println("Hello World");
 	}
 
 }
