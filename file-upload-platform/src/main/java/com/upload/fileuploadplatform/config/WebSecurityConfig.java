@@ -1,4 +1,4 @@
-package com.upload.fileuploadplatform.config;
+	package com.upload.fileuploadplatform.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers("/welcome").permitAll()
 		.antMatchers("/users").permitAll()
-		.antMatchers("/upload").authenticated()
+		.antMatchers("/upload/{fileName}").authenticated()
+		.antMatchers("/uploaded").authenticated()
 		.anyRequest().permitAll()
 		.and().formLogin().permitAll()
 		.and().logout().permitAll()

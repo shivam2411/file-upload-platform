@@ -7,4 +7,6 @@ import com.upload.fileuploadplatform.model.User;
 public interface UserRepository extends MongoRepository<User, String> {
 
 	public User   findByName(String name);
+	
+	
 }
