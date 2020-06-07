@@ -1,6 +1,6 @@
 ## Features
 
--This is a file upload platform which stores user files on AWS S3 buckets and provide following functionalities:
+- This is a file upload platform which stores user files on AWS S3 buckets and provide following functionalities:
 - User authentication
 - File upload
 - File removal
@@ -23,7 +23,7 @@
 
 ## Endpoints explanations:
 
--http://localhost:8080/users (Create new user)
+- http://localhost:8080/users (Create new user)
 
 - http://localhost:8080/aws/upload (Upload file to AWS. It returns a file id )
 
