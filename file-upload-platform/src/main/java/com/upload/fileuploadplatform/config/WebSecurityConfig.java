@@ -18,11 +18,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/welcome").permitAll()
+		.antMatchers("/welcome").authenticated()
 		.antMatchers("/users").permitAll()
-		.antMatchers("/upload/{fileName}").authenticated()
-		.antMatchers("/uploaded").authenticated()
-		.anyRequest().permitAll()
+		.antMatchers("/users/{email}").permitAll()
+		.anyRequest().authenticated()
 		.and().formLogin().permitAll()
 		.and().logout().permitAll()
 		.and().csrf().disable();

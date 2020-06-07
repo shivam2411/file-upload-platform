@@ -2,37 +2,52 @@ package com.upload.fileuploadplatform.model;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 public class User {
-	public User() {
+	
+	//@Indexed(unique = true)
+	@Id
+	private String emailAddress;
+	private String password;
+	 private ArrayList<FileMetaData> uploadedFiles;
+	
+	 User() {
 		super();
 	}
 
 	public User(User user) {
-	name = user.name;
-	password = user.password;
-	uploadedFiles = user.uploadedFiles;
-	}
-	public User(String name, String password, ArrayList<String> uploadedFiles) {
 		super();
-		this.name = name;
+		this.emailAddress = user.emailAddress;
+		this.password = user.password;
+		this.uploadedFiles = user.uploadedFiles;
+	}
+	public User(String emailAddress, String password, ArrayList<FileMetaData> uploadedFiles) {
+		super();
+		this.emailAddress = emailAddress;
 		this.password = password;
 		this.uploadedFiles = uploadedFiles;
 	}
 	
-	@Id
-	String userId;
 	
-	String name;
-	public String getName() {
-		return name;
+	
+	
+	public String getEmailAddress() {
+		return emailAddress;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setUploadedFiles(ArrayList<FileMetaData> uploadedFiles) {
+		this.uploadedFiles = uploadedFiles;
 	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -41,13 +56,9 @@ public class User {
 		
 		this.password = encoder.encode(password);
 	}
-	public ArrayList<String> getUploadedFiles() {
+	public ArrayList<FileMetaData> getUploadedFiles() {
 		return uploadedFiles;
 	}
-	public void setUploadedFiles(ArrayList<String> uploadedFiles) {
-		this.uploadedFiles = uploadedFiles;
-	}
-	String password;
-	ArrayList<String> uploadedFiles;
+	
 
 }

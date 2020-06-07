@@ -18,6 +18,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.upload.fileuploadplatform.model.FileMetaData;
 import com.upload.fileuploadplatform.model.User;
 import com.upload.fileuploadplatform.repository.FileRepository;
 import com.upload.fileuploadplatform.repository.UserRepository;
@@ -40,16 +43,27 @@ public class FileUploadControler {
 	@PostMapping("/users")
 	public void createAccount(@RequestBody User user)
 	{
+		try {
 		userRepository.save(user);
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
 		
+	}
+	
+	@GetMapping("/users/{emailAddress}")
+	public  User getUser(@PathVariable String emailAddress) {
+		return userRepository.findByEmailAddress(emailAddress);
 	}
 	
 	
 	
 	@GetMapping("/uploaded")
-	ArrayList<String> getUploadedFiles(Principal principal) {
+	ArrayList<FileMetaData> getUploadedFiles(Principal principal) {
 		String currentUser = principal.getName();
-		return userRepository.findByName(currentUser).getUploadedFiles();
+		User user = userRepository.findByEmailAddress(currentUser);
+		return user.getUploadedFiles();
 	}
 	
 	@RequestMapping("/welcome")
@@ -58,17 +72,18 @@ public class FileUploadControler {
 		return "Welcome to the file upload platform";
 	}
 	
-	@PostMapping("/upload/{fileName}")
-	public  String uploadFile(@PathVariable String fileName, Principal principal) {
-		String currentUser = principal.getName();
-		fileRepository.uploadFile(fileName, currentUser);
+	@PostMapping("/upload/{fileId}")
+	public  String uploadFile(@RequestBody FileMetaData fileInfo, @PathVariable String fileId, 
+			Principal principal) {
+		String emailAddress = principal.getName();
+		fileRepository.uploadFile(fileInfo, emailAddress, fileId);
 		return "File was uploaded successfully";
 	}
 	
-	@PostMapping("/remove/{fileName}")
-	public  String removeFile(@PathVariable String fileName, Principal principal) {
+	@PostMapping("/remove/{fileId}")
+	public  String removeFile(@PathVariable String fileId, Principal principal) {
 		String currentUser = principal.getName();
-		fileRepository.removeFile(fileName, currentUser);
+		fileRepository.removeFile(fileId, currentUser);
 		return "File was removed successfully";
 	}
 
@@ -76,8 +91,18 @@ public class FileUploadControler {
     
 	
 	@PostMapping("/aws/upload")
-	public  String awsBuckets(@RequestPart(value= "file") final MultipartFile multipartFile) {
-		awsService.uploadFile(multipartFile);	
+	public  String awsBucketUpload(@RequestPart(value= "file") final MultipartFile multipartFile, Principal principal) {
+		String emailAddress = principal.getName();
+		String fileId=  awsService.uploadFile(multipartFile, emailAddress);	
+		
+        
+		return "File was uploaded successfully with file id as " + fileId;
+	}
+	
+	@PostMapping("/aws/remove/{fileId}")
+	public  String awsBucketRemove(@PathVariable String fileId,  Principal principal) {
+		String emailAddress = principal.getName();
+		awsService.removeFile(fileId, emailAddress);	
 		
         
 		return "File was uploaded successfully";
