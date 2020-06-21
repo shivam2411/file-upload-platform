@@ -6,6 +6,17 @@
 </head>
 
 <body>
-<p th:text="${welcome}">
+<h1 th:text="${welcome}"></h1>
+
+<a th:href="@{/uploaded}">View list of already uploaded files</a>
+<br />
+<br />
+<a th:href="@{/upload}">Upload a new file</a>
+<br />
+<br />
+<a th:href="@{/remove}">Remove an existing file</a>
+<br />
+<br />
+
 </body>
 </html>

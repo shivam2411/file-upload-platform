@@ -42,7 +42,7 @@ public class FileUploadControler {
 
 	@RequestMapping("/welcome")
 	public String welcome(Model model) {
-		model.addAttribute("welcome", "Welcome to the UI - file upload platform");
+		model.addAttribute("welcome", "Welcome to the file upload platform");
 		return "welcome";
 	}
 
