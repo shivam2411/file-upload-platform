@@ -16,7 +16,7 @@
 
 ## Steps to use the service:
 
-Go to local host URL - http://localhost:8080/welcome
+Go to local host URL - http://localhost:8080/signup
 
 ## Endpoints explanations:
 
