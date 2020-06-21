@@ -12,10 +12,10 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 	
-	public String save(User user) {
+	public void save(User user) {
 		
 		userRepository.save(user);
-		return "User Created successfully";
+		
 		
 	}
 	

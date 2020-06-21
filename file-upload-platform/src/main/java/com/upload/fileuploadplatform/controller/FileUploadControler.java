@@ -47,8 +47,10 @@ public class FileUploadControler {
 	}
 
 	@PostMapping("/users")
-	public String createAccount(@RequestBody User user) {
-		return userService.save(user);
+	public String createAccount( User user, Model model) {
+		
+		 userService.save(user);
+		 return "login";
 		
 
 	}
@@ -100,6 +102,13 @@ public class FileUploadControler {
 
 		return "remove";
 	}
+	
+	@GetMapping("/signup")
+	public String signUp(Model model) {
+
+		return "users";
+	}
+	
 	
 	// Method for debugging purposes
 	@GetMapping("/users/{emailAddress}")
