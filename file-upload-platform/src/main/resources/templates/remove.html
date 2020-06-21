@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>File upload platform</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+	<div style="margin: 10px; padding: 10px;">
+		<form method="post" action="/aws/remove/ + ${fileId}">
+			<input type="text" name="fileId" style="margin: 10px; padding: 10px;">File ID</input>
+			<br />
+			<button type="submit" >Remove file</button>
+		</form>
+	</div>
+
+</body>
+</html>

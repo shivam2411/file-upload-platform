@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>File upload platform</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+	<h1>Here is the list of files which you have uploaded!</h1>
+	<ul th:each="upload: ${uploaded}">
+		<li>
+		<p th:text="'File name is: '+${upload.fileName}"></p>
+		<p th:text="'Title is: '+${upload.title}"></p>
+		<p th:text="'Description is: '+${upload.description}"></p>
+		<p th:text="'Uploaded time is: '+${upload.uploadedTimeStamp}"></p>
+		<p th:text="'File ID is: '+${upload.fileId}"></p>
+		
+		</li>
+	</ul>
+</body>
+</html>

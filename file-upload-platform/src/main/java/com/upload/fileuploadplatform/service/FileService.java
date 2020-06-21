@@ -28,11 +28,10 @@ public class FileService {
 
 	}
 
-	public String updateFileMetaData(FileMetaData fileInfo, String fileId, Principal principal) {
+	public void updateFileMetaData(FileMetaData fileInfo, String fileId, Principal principal) {
 
 		String emailAddress = principal.getName();
 		fileRepository.updateFileMetaData(fileInfo, emailAddress, fileId);
-		return "File meta data was uploaded successfully";
 
 	}
 

@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,7 @@ import com.upload.fileuploadplatform.service.AwsService;
 import com.upload.fileuploadplatform.service.FileService;
 import com.upload.fileuploadplatform.service.UserService;
 
-@RestController
+@Controller
 public class FileUploadControler {
 	@Autowired
 	UserRepository userRepository;
@@ -39,8 +41,9 @@ public class FileUploadControler {
 	AwsService awsService;
 
 	@RequestMapping("/welcome")
-	public String welcome() {
-		return "Welcome to the file upload platform";
+	public String welcome(Model model) {
+		model.addAttribute("welcome", "Welcome to the UI - file upload platform");
+		return "welcome";
 	}
 
 	@PostMapping("/users")
@@ -51,31 +54,53 @@ public class FileUploadControler {
 	}
 	
 	@PostMapping("/aws/upload")
-	public String awsBucketUpload(@RequestPart(value = "file") final MultipartFile multipartFile, Principal principal) {
-
-		return awsService.uploadFile(multipartFile, principal);
+	public String awsBucketUpload(@RequestPart(value = "file") final MultipartFile multipartFile, Principal principal, Model model) {
+		model.addAttribute("uploadResult", awsService.uploadFile(multipartFile, principal));
+		return "uploadResult";
+		
 
 	}
 	
 	@PostMapping("/aws/remove/{fileId}")
-	public String awsBucketRemove(@PathVariable String fileId, Principal principal) {
-
-		return awsService.removeFile(fileId, principal);
+	public String awsBucketRemove( String fileId, Principal principal, Model model) {
+		model.addAttribute("removeResult", awsService.removeFile(fileId, principal));
+		return "removeResult";
 	}
 
 	@GetMapping("/uploaded")
-	ArrayList<FileMetaData> getUploadedFilesList(Principal principal) {
-
-		return fileService.getUploadedFilesList(principal);
+	String getUploadedFilesList(Model model, Principal principal) {
+		model.addAttribute("uploaded", fileService.getUploadedFilesList(principal) );
+		return "uploaded";
 
 	}
 
 	@PostMapping("/update/{fileId}")
-	public String updateFileMetaData(@RequestBody FileMetaData fileMetaData, @PathVariable String fileId,
-			Principal principal) {
-		return fileService.updateFileMetaData(fileMetaData, fileId, principal);
+	public String updateFileMetaData( FileMetaData fileMetaData,  String fileId,
+			Principal principal, Model model) {
+		 fileService.updateFileMetaData(fileMetaData, fileId, principal);
+		 model.addAttribute("uploaded", fileService.getUploadedFilesList(principal) );
+			return "uploaded";
 	}
+	
 
+	@GetMapping("/upload")
+	public String uploadFile(Model model) {
+
+		return "uploadFile";
+	}
+	
+	@GetMapping("/update")
+	public String updateMetaData(Model model) {
+
+		return "updateMetaData";
+	}
+	
+	@GetMapping("/remove")
+	public String remove(Model model) {
+
+		return "remove";
+	}
+	
 	// Method for debugging purposes
 	@GetMapping("/users/{emailAddress}")
 	public User getUserDetails(@PathVariable String emailAddress) {
