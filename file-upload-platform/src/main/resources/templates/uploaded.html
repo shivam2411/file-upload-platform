@@ -6,6 +6,9 @@
 </head>
 
 <body>
+<a th:href="@{/welcome}">Go to home page</a>
+<br />
+<br />
 	<h1>Here is the list of files which you have uploaded!</h1>
 	<ul th:each="upload: ${uploaded}">
 		<li>
